@@ -46,4 +46,21 @@ public class UsuarioService {
     public boolean verificarEmailExistente(String email) {
         return usuarioRepository.existsByEmail(email);
     }
+
+    public UsuarioDTO buscarUsuarioPorEmail(String email) {
+        try {
+            return usuarioConverter.paraUsuarioDTO(
+                    usuarioRepository.findByEmail(email)
+                            .orElseThrow(
+                                    () -> new ResourceNotFoundException("Email não encontrado" + email))
+            );
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Email não encontrado " + email);
+
+        }
+    }
+
+    public void deletarUsuarioPorEmail(String email) {
+        usuarioRepository.deleteByEmail(email);
+    }
 }
