@@ -25,4 +25,26 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDTO> salvaUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         return ResponseEntity.ok(usuarioService.salvaUsuario(usuarioDTO));
     }
+
+    @PostMapping("/login")
+    public String login(@RequestBody UsuarioDTO usuarioDTO){
+        Authentication authentication = authenticationManager.authenticate((
+                        new UsernamePasswordAuthenticationToken(usuarioDTO.getEmail(),
+                                usuarioDTO.getSenha())
+                )
+        );
+
+        return "Bearer " + jwtUtil.generateToken(authentication.getName());
+    }
+
+    @GetMapping
+    public ResponseEntity<UsuarioDTO> buscarUsuarioPorEmail(@RequestParam("email") String email){
+        return ResponseEntity.ok(usuarioService.buscarUsuarioPorEmail(email));
+    }
+
+    @DeleteMapping("/{email}")
+    public ResponseEntity<Void> deletarUsuarioPorEmail(@PathVariable String email){
+        usuarioService.deletarUsuarioPorEmail(email);
+        return ResponseEntity.ok().build();
+    }
 }
