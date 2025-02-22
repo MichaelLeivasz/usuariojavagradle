@@ -13,7 +13,7 @@ import java.util.Date;
 public class JwtUtil {
 
     // Chave secreta usada para assinar e verificar tokens JWT
-    private final String secretKey = String.valueOf(Keys.secretKeyFor(SignatureAlgorithm.HS256));
+    private final String secretKey = "chave-aleatoria-que-criei-sem-nenhuma-criatividade-somente-para-servir-como-chave";
 
 
 
